@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             this.btnConsultar = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.dgvUsuarios = new System.Windows.Forms.DataGridView();
             this.txtNome = new System.Windows.Forms.TextBox();
             this.txtEmail = new System.Windows.Forms.TextBox();
@@ -59,21 +57,6 @@
             this.btnConsultar.Text = "Consultar";
             this.btnConsultar.UseVisualStyleBackColor = true;
             this.btnConsultar.Click += new System.EventHandler(this.btnConsultar_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(546, 35);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(34, 15);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Data:";
-            // 
-            // monthCalendar1
-            // 
-            this.monthCalendar1.Location = new System.Drawing.Point(546, 53);
-            this.monthCalendar1.Name = "monthCalendar1";
-            this.monthCalendar1.TabIndex = 2;
             // 
             // dgvUsuarios
             // 
@@ -238,8 +221,6 @@
             this.Controls.Add(this.txtEmail);
             this.Controls.Add(this.txtNome);
             this.Controls.Add(this.dgvUsuarios);
-            this.Controls.Add(this.monthCalendar1);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnConsultar);
             this.Name = "frmCRUDSQL";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -253,8 +234,6 @@
         #endregion
 
         private Button btnConsultar;
-        private Label label1;
-        private MonthCalendar monthCalendar1;
         private DataGridView dgvUsuarios;
         private TextBox txtNome;
         private TextBox txtEmail;

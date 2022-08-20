@@ -1,5 +1,4 @@
-﻿using AppClassLibraryDomain.DAO.EntityFramework;
-using AppClassLibraryDomain.model;
+﻿using AppClassLibraryDomain.model;
 using AppClassLibraryDomain.service;
 
 namespace WindowsForms
@@ -18,13 +17,13 @@ namespace WindowsForms
         {
             try
             {
-                if (usuarioService.BuscarPorEmailNHibernate(txtEmail.Text) != null)
+                if (usuarioService.BuscarPorEmailSQL(txtEmail.Text) != null)
                     throw new Exception("Já existe usuário cadastrado com o e-maul informado!");
 
                 if (!txtSenha.Text.Equals(txtSenhaConfirma.Text))
                     throw new Exception("Senhas não são iguais!");
 
-                if (string.IsNullOrEmpty(txtEmail.Text))
+                if (string.IsNullOrEmpty(txtSenha.Text))
                     throw new Exception("Senha não pode ser vazia!");
                 return true;
             }
@@ -42,14 +41,11 @@ namespace WindowsForms
 
         private void btnSalvar_Click(object sender, EventArgs e)
         {
-
-           
-
             if (criticas())
                 try
                 {
                     PreencheDadosUsuario(usuarioService
-                        .CadastrarNHibernate(new Usuario()
+                        .CadastrarSQL(new Usuario()
                         {
                             Nome = txtNome.Text,
                             Email = txtEmail.Text,
@@ -78,10 +74,9 @@ namespace WindowsForms
         {
             try
             {
-                //var teste = monthCalendar1.SelectionRange.Start.ToString();
                 if (!string.IsNullOrEmpty(txtId.Text))
                 {
-                    var usuario = usuarioService.BuscarPorIdNHibernate(Int64.Parse(txtId.Text));
+                    var usuario = usuarioService.BuscarPorIdSQL(int.Parse(txtId.Text));
 
                     if (usuario == null)
                         throw new Exception("Não há usuário con o código informado!");
@@ -89,7 +84,7 @@ namespace WindowsForms
                         PreencheDadosUsuario(usuario);
                 }
                 else
-                    dgvUsuarios.DataSource = usuarioService.GetUsuariosEntity();
+                    dgvUsuarios.DataSource = usuarioService.GetUsuariosSQL();
             }
             catch (Exception ex)
             {
@@ -103,7 +98,8 @@ namespace WindowsForms
             txtId.Enabled = false;
             txtNome.Text = usuario.Nome;
             txtEmail.Text = usuario.Email;
-            ckbAtivo.Checked = (bool)usuario.Ativo;
+            if (usuario.Ativo != null)
+                ckbAtivo.Checked = (bool)usuario.Ativo;
             //txtSenha.Text = usuario.Senha;
             //txtSenhaConfirma.Text = usuario.Senha;
         }
@@ -126,14 +122,13 @@ namespace WindowsForms
                 try
                 {
                     var usuario = usuarioService
-                        .AtualizarNHibernate(new Usuario()
+                        .AlterarPorIdSQL(new Usuario()
                         {
-                            Id = Int64.Parse(txtId.Text),
                             Nome = txtNome.Text,
                             Email = txtEmail.Text,
                             Ativo = ckbAtivo.Checked,
                             Senha = txtSenha.Text
-                        });
+                        }, Int64.Parse(txtId.Text));
                     MessageBox.Show(
                        String.Format("Usuário atualizado com sucesso!"),
                        "Informativo",
@@ -170,7 +165,7 @@ namespace WindowsForms
                         throw new Exception("Não há usuário con o código informado!");
                     else
                     {
-                        usuarioService.ApagarUsuarioNHibernate(usuario);
+                        usuarioService.ApagarPorIdSQL(usuario.Id);
                         MessageBox.Show(
                             String.Format("Usuário removido com sucesso!"),
                             "Informativo",
