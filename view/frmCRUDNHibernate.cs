@@ -1,5 +1,4 @@
-﻿using AppClassLibraryDomain.DAO.EntityFramework;
-using AppClassLibraryDomain.model;
+﻿using AppClassLibraryDomain.model;
 using AppClassLibraryDomain.service;
 
 namespace WindowsForms
@@ -21,11 +20,11 @@ namespace WindowsForms
                 if (usuarioService.BuscarPorEmailNHibernate(txtEmail.Text) != null)
                     throw new Exception("Já existe usuário cadastrado com o e-maul informado!");
 
-                if (!txtSenha.Text.Equals(txtSenhaConfirma.Text))
-                    throw new Exception("Senhas não são iguais!");
-
-                if (string.IsNullOrEmpty(txtEmail.Text))
-                    throw new Exception("Senha não pode ser vazia!");
+                if (!string.IsNullOrEmpty(txtSenha.Text))
+                {
+                    if (!txtSenha.Text.Equals(txtSenhaConfirma.Text))
+                        throw new Exception("Senhas não são iguais!");
+                }
                 return true;
             }
             catch (Exception ex)
@@ -42,9 +41,6 @@ namespace WindowsForms
 
         private void btnSalvar_Click(object sender, EventArgs e)
         {
-
-           
-
             if (criticas())
                 try
                 {
@@ -78,7 +74,6 @@ namespace WindowsForms
         {
             try
             {
-                //var teste = monthCalendar1.SelectionRange.Start.ToString();
                 if (!string.IsNullOrEmpty(txtId.Text))
                 {
                     var usuario = usuarioService.BuscarPorIdNHibernate(Int64.Parse(txtId.Text));
@@ -89,7 +84,7 @@ namespace WindowsForms
                         PreencheDadosUsuario(usuario);
                 }
                 else
-                    dgvUsuarios.DataSource = usuarioService.GetUsuariosEntity();
+                    dgvUsuarios.DataSource = usuarioService.GetUsuariosNHibernate();
             }
             catch (Exception ex)
             {
@@ -104,8 +99,6 @@ namespace WindowsForms
             txtNome.Text = usuario.Nome;
             txtEmail.Text = usuario.Email;
             ckbAtivo.Checked = (bool)usuario.Ativo;
-            //txtSenha.Text = usuario.Senha;
-            //txtSenhaConfirma.Text = usuario.Senha;
         }
 
         private void btnLimpar_Click(object sender, EventArgs e)

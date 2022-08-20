@@ -28,9 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCRUDNHibernate));
             this.btnConsultar = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.dgvUsuarios = new System.Windows.Forms.DataGridView();
             this.txtNome = new System.Windows.Forms.TextBox();
             this.txtEmail = new System.Windows.Forms.TextBox();
@@ -47,7 +46,9 @@
             this.btnLimpar = new System.Windows.Forms.Button();
             this.btnAtualizar = new System.Windows.Forms.Button();
             this.btnApagar = new System.Windows.Forms.Button();
+            this.pcbNHibernate = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsuarios)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcbNHibernate)).BeginInit();
             this.SuspendLayout();
             // 
             // btnConsultar
@@ -59,21 +60,6 @@
             this.btnConsultar.Text = "Consultar";
             this.btnConsultar.UseVisualStyleBackColor = true;
             this.btnConsultar.Click += new System.EventHandler(this.btnConsultar_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(546, 35);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(34, 15);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Data:";
-            // 
-            // monthCalendar1
-            // 
-            this.monthCalendar1.Location = new System.Drawing.Point(546, 53);
-            this.monthCalendar1.Name = "monthCalendar1";
-            this.monthCalendar1.TabIndex = 2;
             // 
             // dgvUsuarios
             // 
@@ -217,11 +203,21 @@
             this.btnApagar.UseVisualStyleBackColor = true;
             this.btnApagar.Click += new System.EventHandler(this.btnApagar_Click);
             // 
+            // pcbNHibernate
+            // 
+            this.pcbNHibernate.Image = ((System.Drawing.Image)(resources.GetObject("pcbNHibernate.Image")));
+            this.pcbNHibernate.Location = new System.Drawing.Point(538, 9);
+            this.pcbNHibernate.Name = "pcbNHibernate";
+            this.pcbNHibernate.Size = new System.Drawing.Size(328, 146);
+            this.pcbNHibernate.TabIndex = 19;
+            this.pcbNHibernate.TabStop = false;
+            // 
             // frmCRUDNHibernate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(909, 501);
+            this.Controls.Add(this.pcbNHibernate);
             this.Controls.Add(this.btnApagar);
             this.Controls.Add(this.btnAtualizar);
             this.Controls.Add(this.btnLimpar);
@@ -238,13 +234,12 @@
             this.Controls.Add(this.txtEmail);
             this.Controls.Add(this.txtNome);
             this.Controls.Add(this.dgvUsuarios);
-            this.Controls.Add(this.monthCalendar1);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnConsultar);
             this.Name = "frmCRUDNHibernate";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "CRUD NHibernate";
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsuarios)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcbNHibernate)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -253,8 +248,6 @@
         #endregion
 
         private Button btnConsultar;
-        private Label label1;
-        private MonthCalendar monthCalendar1;
         private DataGridView dgvUsuarios;
         private TextBox txtNome;
         private TextBox txtEmail;
@@ -271,5 +264,6 @@
         private Button btnLimpar;
         private Button btnAtualizar;
         private Button btnApagar;
+        private PictureBox pcbNHibernate;
     }
 }
