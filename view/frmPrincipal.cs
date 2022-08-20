@@ -1,8 +1,4 @@
-﻿using AppClassLibraryDomain.DAO.NHibernate;
-using AppClassLibraryDomain.model;
-using NHibernate;
-
-namespace WindowsForms
+﻿namespace WindowsForms
 {
     public partial class frmPrincipal : Form
     {
@@ -12,7 +8,6 @@ namespace WindowsForms
         {
             InitializeComponent();
             toolStripStatusLabel.Text = string.Format("Existe {0} telas abertas", childFormNumber);
-            consultaNHibernateToolStripMenuItem_Click(null, null);
         }
 
         private void ShowNewForm(object sender, EventArgs e)
