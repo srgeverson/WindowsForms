@@ -1,5 +1,4 @@
-﻿using AppClassLibraryDomain.DAO.EntityFramework;
-using AppClassLibraryDomain.model;
+﻿using AppClassLibraryDomain.model.EntityFramework;
 using AppClassLibraryDomain.service;
 
 namespace WindowsForms
@@ -18,14 +17,15 @@ namespace WindowsForms
         {
             try
             {
-                if (usuarioService.BuscarPorEmailNHibernate(txtEmail.Text) != null)
-                    throw new Exception("Já existe usuário cadastrado com o e-maul informado!");
+                var usuarioComEmailExiste = usuarioService.BuscarPorEmailEntity(txtEmail.Text);
+                if (usuarioComEmailExiste != null)
+                    throw new Exception("Já existe usuário cadastrado com o e-mail informado!");
 
-                if (!txtSenha.Text.Equals(txtSenhaConfirma.Text))
-                    throw new Exception("Senhas não são iguais!");
-
-                if (string.IsNullOrEmpty(txtEmail.Text))
-                    throw new Exception("Senha não pode ser vazia!");
+                if (!string.IsNullOrEmpty(txtSenha.Text))
+                {
+                    if (!txtSenha.Text.Equals(txtSenhaConfirma.Text))
+                        throw new Exception("Senhas não são iguais!");
+                }
                 return true;
             }
             catch (Exception ex)
@@ -42,14 +42,11 @@ namespace WindowsForms
 
         private void btnSalvar_Click(object sender, EventArgs e)
         {
-
-           
-
             if (criticas())
                 try
                 {
                     PreencheDadosUsuario(usuarioService
-                        .CadastrarNHibernate(new Usuario()
+                        .CadastrarEntity(new Usuario()
                         {
                             Nome = txtNome.Text,
                             Email = txtEmail.Text,
@@ -78,10 +75,9 @@ namespace WindowsForms
         {
             try
             {
-                //var teste = monthCalendar1.SelectionRange.Start.ToString();
                 if (!string.IsNullOrEmpty(txtId.Text))
                 {
-                    var usuario = usuarioService.BuscarPorIdNHibernate(Int64.Parse(txtId.Text));
+                    var usuario = usuarioService.GetUsuarioPorIdEntity(int.Parse(txtId.Text));
 
                     if (usuario == null)
                         throw new Exception("Não há usuário con o código informado!");
@@ -104,8 +100,6 @@ namespace WindowsForms
             txtNome.Text = usuario.Nome;
             txtEmail.Text = usuario.Email;
             ckbAtivo.Checked = (bool)usuario.Ativo;
-            //txtSenha.Text = usuario.Senha;
-            //txtSenhaConfirma.Text = usuario.Senha;
         }
 
         private void btnLimpar_Click(object sender, EventArgs e)
@@ -126,9 +120,9 @@ namespace WindowsForms
                 try
                 {
                     var usuario = usuarioService
-                        .AtualizarNHibernate(new Usuario()
+                        .AtualizarEntity(new Usuario()
                         {
-                            Id = Int64.Parse(txtId.Text),
+                            Id = int.Parse(txtId.Text),
                             Nome = txtNome.Text,
                             Email = txtEmail.Text,
                             Ativo = ckbAtivo.Checked,
@@ -165,12 +159,12 @@ namespace WindowsForms
             {
                 if (!string.IsNullOrEmpty(txtId.Text))
                 {
-                    var usuario = usuarioService.BuscarPorIdNHibernate(Int64.Parse(txtId.Text));
+                    var usuario = usuarioService.GetUsuarioPorIdEntity(int.Parse(txtId.Text));
                     if (usuario == null)
                         throw new Exception("Não há usuário con o código informado!");
                     else
                     {
-                        usuarioService.ApagarUsuarioNHibernate(usuario);
+                        usuarioService.ApagarUsuarioEntity(usuario);
                         MessageBox.Show(
                             String.Format("Usuário removido com sucesso!"),
                             "Informativo",

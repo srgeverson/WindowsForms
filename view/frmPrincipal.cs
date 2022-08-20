@@ -8,6 +8,7 @@
         {
             InitializeComponent();
             toolStripStatusLabel.Text = string.Format("Existe {0} telas abertas", childFormNumber);
+            tsmiCRUDEntityFrameworkToolStripMenuItem_Click(null, null);
         }
 
         private void ShowNewForm(object sender, EventArgs e)
