@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCRUDSQL));
             this.btnConsultar = new System.Windows.Forms.Button();
             this.dgvUsuarios = new System.Windows.Forms.DataGridView();
             this.txtNome = new System.Windows.Forms.TextBox();
@@ -45,7 +46,9 @@
             this.btnLimpar = new System.Windows.Forms.Button();
             this.btnAtualizar = new System.Windows.Forms.Button();
             this.btnApagar = new System.Windows.Forms.Button();
+            this.pcbSQL = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsuarios)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcbSQL)).BeginInit();
             this.SuspendLayout();
             // 
             // btnConsultar
@@ -200,11 +203,21 @@
             this.btnApagar.UseVisualStyleBackColor = true;
             this.btnApagar.Click += new System.EventHandler(this.btnApagar_Click);
             // 
+            // pcbSQL
+            // 
+            this.pcbSQL.Image = ((System.Drawing.Image)(resources.GetObject("pcbSQL.Image")));
+            this.pcbSQL.Location = new System.Drawing.Point(520, 9);
+            this.pcbSQL.Name = "pcbSQL";
+            this.pcbSQL.Size = new System.Drawing.Size(303, 170);
+            this.pcbSQL.TabIndex = 19;
+            this.pcbSQL.TabStop = false;
+            // 
             // frmCRUDSQL
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(909, 501);
+            this.Controls.Add(this.pcbSQL);
             this.Controls.Add(this.btnApagar);
             this.Controls.Add(this.btnAtualizar);
             this.Controls.Add(this.btnLimpar);
@@ -226,6 +239,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "CRUD SQL";
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsuarios)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcbSQL)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -250,5 +264,6 @@
         private Button btnLimpar;
         private Button btnAtualizar;
         private Button btnApagar;
+        private PictureBox pcbSQL;
     }
 }

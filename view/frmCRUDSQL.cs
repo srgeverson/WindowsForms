@@ -17,14 +17,14 @@ namespace WindowsForms
         {
             try
             {
-                if (usuarioService.BuscarPorEmailSQL(txtEmail.Text) != null)
+                if (usuarioService.BuscarPorEmailNHibernate(txtEmail.Text) != null)
                     throw new Exception("Já existe usuário cadastrado com o e-maul informado!");
 
-                if (!txtSenha.Text.Equals(txtSenhaConfirma.Text))
-                    throw new Exception("Senhas não são iguais!");
-
-                if (string.IsNullOrEmpty(txtSenha.Text))
-                    throw new Exception("Senha não pode ser vazia!");
+                if (!string.IsNullOrEmpty(txtSenha.Text))
+                {
+                    if (!txtSenha.Text.Equals(txtSenhaConfirma.Text))
+                        throw new Exception("Senhas não são iguais!");
+                }
                 return true;
             }
             catch (Exception ex)
