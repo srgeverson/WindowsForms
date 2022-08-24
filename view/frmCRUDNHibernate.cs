@@ -99,6 +99,14 @@ namespace WindowsForms
             txtNome.Text = usuario.Nome;
             txtEmail.Text = usuario.Email;
             ckbAtivo.Checked = (bool)usuario.Ativo;
+            if (usuario.UsuarioFotoPerfil != null)
+            {
+                pcbFotoPerfil.ImageLocation = usuario.UsuarioFotoPerfil.Caminho;
+                btnAlterarFotoPerfil.Enabled = true;
+                btnApagarFotoPerfil.Enabled = true;
+            }
+            else
+                btnSalvarFotoPerfil.Enabled = true;
         }
 
         private void btnLimpar_Click(object sender, EventArgs e)
@@ -111,6 +119,11 @@ namespace WindowsForms
             txtSenha.Text = String.Empty;
             txtSenhaConfirma.Text = String.Empty;
             dgvUsuarios.DataSource = null;
+            btnAlterarFotoPerfil.Enabled = false;
+            btnApagarFotoPerfil.Enabled = false;
+            btnSalvarFotoPerfil.Enabled = false;
+            pcbFotoPerfil.ImageLocation = String.Empty;
+            ofdFotoPerfil.FileName = String.Empty;
         }
 
         private void btnAtualizar_Click(object sender, EventArgs e)
@@ -147,6 +160,8 @@ namespace WindowsForms
 
         private void txtId_KeyPress(object sender, KeyPressEventArgs e)
         {
+            if (e.KeyChar == 13)
+                btnConsultar_Click(null, null);
             //Permite apenas número
             if (!Char.IsDigit(e.KeyChar) && e.KeyChar != (char)8)
                 e.Handled = true;
@@ -179,6 +194,134 @@ namespace WindowsForms
             {
                 MessageBox.Show(
                        String.Format("Não foi possível apagar o usuário: {0}", ex.Message),
+                       "Atenção",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Warning
+                       );
+            }
+        }
+
+        private void btnAlterarFotoPerfil_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(txtId.Text))
+                {
+                    throw new Exception("Salve/Consulte o usuário antes!");
+                }
+                else
+                {
+                    var usuario = usuarioService.BuscarPorIdNHibernate(Int64.Parse(txtId.Text));
+                    var usuarioFoto = usuario.UsuarioFotoPerfil;
+                    usuarioFoto.Nome = ofdFotoPerfil.FileName;
+                    usuarioFoto.Caminho = ofdFotoPerfil.FileName;
+                    usuarioService.AtualizarFotoNHibernate(usuarioFoto);
+                    btnSalvarFotoPerfil.Enabled = false;
+                    btnAlterarFotoPerfil.Enabled = !btnSalvarFotoPerfil.Enabled;
+                    btnApagarFotoPerfil.Enabled = !btnSalvarFotoPerfil.Enabled;
+                    MessageBox.Show(
+                       "Foto alterada com sucesso!",
+                       "Informação",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Information
+                       );
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                       String.Format("Não foi possível alterar a foto do usuário: {0}", ex.Message),
+                       "Atenção",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Warning
+                       );
+            }
+        }
+
+        private void btnSalvarFotoPerfil_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(txtId.Text))
+                {
+                    throw new Exception("Salve/Consulte o usuário antes!");
+                }
+                else
+                {
+                    var usuario = usuarioService.BuscarPorIdNHibernate(Int64.Parse(txtId.Text));
+                    if (usuario == null)
+                        throw new Exception("Não há usuário con o código informado!");
+
+                    if (string.IsNullOrEmpty(ofdFotoPerfil.FileName))
+                        throw new Exception("Selecione uma foto!");
+
+                    var usuarioFoto = new UsuarioFotoPerfil();
+                    usuarioFoto.Usuario = usuario;
+                    usuarioFoto.Nome = ofdFotoPerfil.FileName;
+                    usuarioFoto.Caminho = ofdFotoPerfil.FileName;
+                    usuarioService.CadastrarFotoNHibernate(usuarioFoto);
+                    btnSalvarFotoPerfil.Enabled = false;
+                    btnAlterarFotoPerfil.Enabled = !btnSalvarFotoPerfil.Enabled;
+                    btnApagarFotoPerfil.Enabled = !btnSalvarFotoPerfil.Enabled;
+                    MessageBox.Show(
+                       "Foto salva com sucesso!",
+                       "Informação",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Information
+                       );
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                       String.Format("Não foi possível salvar a foto do usuário: {0}", ex.Message),
+                       "Atenção",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Warning
+                       );
+            }
+        }
+
+        private void pcbFotoPerfil_Click(object sender, EventArgs e)
+        {
+            ofdFotoPerfil.Title = "Pesquisando fotos";
+            ofdFotoPerfil.DefaultExt = "png";
+            ofdFotoPerfil.Filter = "Foto (*.png)|*.png|Todos Arquivos (*.*)|*.*";
+            ofdFotoPerfil.CheckFileExists = true;
+            ofdFotoPerfil.ShowDialog();
+            pcbFotoPerfil.ImageLocation = ofdFotoPerfil.FileName;
+        }
+
+        private void btnApagarFotoPerfil_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(txtId.Text))
+                {
+                    throw new Exception("Salve/Consulte o usuário antes!");
+                }
+                else
+                {
+                    var usuario = usuarioService.BuscarPorIdNHibernate(Int64.Parse(txtId.Text));
+                    var usuarioFoto = usuario.UsuarioFotoPerfil;
+                    usuarioService.ApagarFotoUsuarioNHibernate(usuarioFoto);
+                    pcbFotoPerfil.ImageLocation = String.Empty;
+                    ofdFotoPerfil.FileName = String.Empty;
+                    btnSalvarFotoPerfil.Enabled = true;
+                    btnAlterarFotoPerfil.Enabled = !btnSalvarFotoPerfil.Enabled;
+                    btnApagarFotoPerfil.Enabled = !btnSalvarFotoPerfil.Enabled;
+                    MessageBox.Show(
+                       "Foto alterada com sucesso!",
+                       "Informação",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Information
+                       );
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                       String.Format("Não foi possível alterar a foto do usuário: {0}", ex.Message),
                        "Atenção",
                        MessageBoxButtons.OK,
                        MessageBoxIcon.Warning

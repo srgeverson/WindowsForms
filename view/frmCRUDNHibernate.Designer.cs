@@ -47,8 +47,14 @@
             this.btnAtualizar = new System.Windows.Forms.Button();
             this.btnApagar = new System.Windows.Forms.Button();
             this.pcbNHibernate = new System.Windows.Forms.PictureBox();
+            this.btnSalvarFotoPerfil = new System.Windows.Forms.Button();
+            this.pcbFotoPerfil = new System.Windows.Forms.PictureBox();
+            this.btnAlterarFotoPerfil = new System.Windows.Forms.Button();
+            this.btnApagarFotoPerfil = new System.Windows.Forms.Button();
+            this.ofdFotoPerfil = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsuarios)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcbNHibernate)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcbFotoPerfil)).BeginInit();
             this.SuspendLayout();
             // 
             // btnConsultar
@@ -212,11 +218,58 @@
             this.pcbNHibernate.TabIndex = 19;
             this.pcbNHibernate.TabStop = false;
             // 
+            // btnSalvarFotoPerfil
+            // 
+            this.btnSalvarFotoPerfil.Enabled = false;
+            this.btnSalvarFotoPerfil.Location = new System.Drawing.Point(340, 114);
+            this.btnSalvarFotoPerfil.Name = "btnSalvarFotoPerfil";
+            this.btnSalvarFotoPerfil.Size = new System.Drawing.Size(51, 23);
+            this.btnSalvarFotoPerfil.TabIndex = 20;
+            this.btnSalvarFotoPerfil.Text = "Salvar";
+            this.btnSalvarFotoPerfil.UseVisualStyleBackColor = true;
+            this.btnSalvarFotoPerfil.Click += new System.EventHandler(this.btnSalvarFotoPerfil_Click);
+            // 
+            // pcbFotoPerfil
+            // 
+            this.pcbFotoPerfil.Image = ((System.Drawing.Image)(resources.GetObject("pcbFotoPerfil.Image")));
+            this.pcbFotoPerfil.Location = new System.Drawing.Point(340, 12);
+            this.pcbFotoPerfil.Name = "pcbFotoPerfil";
+            this.pcbFotoPerfil.Size = new System.Drawing.Size(168, 96);
+            this.pcbFotoPerfil.TabIndex = 21;
+            this.pcbFotoPerfil.TabStop = false;
+            this.pcbFotoPerfil.Click += new System.EventHandler(this.pcbFotoPerfil_Click);
+            // 
+            // btnAlterarFotoPerfil
+            // 
+            this.btnAlterarFotoPerfil.Enabled = false;
+            this.btnAlterarFotoPerfil.Location = new System.Drawing.Point(397, 115);
+            this.btnAlterarFotoPerfil.Name = "btnAlterarFotoPerfil";
+            this.btnAlterarFotoPerfil.Size = new System.Drawing.Size(50, 23);
+            this.btnAlterarFotoPerfil.TabIndex = 22;
+            this.btnAlterarFotoPerfil.Text = "Alterar";
+            this.btnAlterarFotoPerfil.UseVisualStyleBackColor = true;
+            this.btnAlterarFotoPerfil.Click += new System.EventHandler(this.btnAlterarFotoPerfil_Click);
+            // 
+            // btnApagarFotoPerfil
+            // 
+            this.btnApagarFotoPerfil.Enabled = false;
+            this.btnApagarFotoPerfil.Location = new System.Drawing.Point(453, 115);
+            this.btnApagarFotoPerfil.Name = "btnApagarFotoPerfil";
+            this.btnApagarFotoPerfil.Size = new System.Drawing.Size(55, 23);
+            this.btnApagarFotoPerfil.TabIndex = 23;
+            this.btnApagarFotoPerfil.Text = "Apagar";
+            this.btnApagarFotoPerfil.UseVisualStyleBackColor = true;
+            this.btnApagarFotoPerfil.Click += new System.EventHandler(this.btnApagarFotoPerfil_Click);
+            // 
             // frmCRUDNHibernate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(909, 501);
+            this.Controls.Add(this.btnSalvarFotoPerfil);
+            this.Controls.Add(this.btnApagarFotoPerfil);
+            this.Controls.Add(this.btnAlterarFotoPerfil);
+            this.Controls.Add(this.pcbFotoPerfil);
             this.Controls.Add(this.pcbNHibernate);
             this.Controls.Add(this.btnApagar);
             this.Controls.Add(this.btnAtualizar);
@@ -240,6 +293,7 @@
             this.Text = "CRUD NHibernate";
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsuarios)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcbNHibernate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcbFotoPerfil)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -265,5 +319,10 @@
         private Button btnAtualizar;
         private Button btnApagar;
         private PictureBox pcbNHibernate;
+        private Button btnSalvarFotoPerfil;
+        private PictureBox pcbFotoPerfil;
+        private Button btnAlterarFotoPerfil;
+        private Button btnApagarFotoPerfil;
+        private OpenFileDialog ofdFotoPerfil;
     }
 }
