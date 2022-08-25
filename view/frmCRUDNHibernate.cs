@@ -6,11 +6,15 @@ namespace WindowsForms
     public partial class frmCRUDNHibernate : Form
     {
         private UsuarioService usuarioService;
+        private readonly string PASTA_TEMP_APP = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
         public frmCRUDNHibernate()
         {
             InitializeComponent();
             if (usuarioService == null)
                 usuarioService = new UsuarioService();
+
+            if (!Directory.Exists(PASTA_TEMP_APP))
+                Directory.CreateDirectory(PASTA_TEMP_APP);
         }
 
         private bool criticas()
@@ -98,10 +102,20 @@ namespace WindowsForms
             txtId.Enabled = false;
             txtNome.Text = usuario.Nome;
             txtEmail.Text = usuario.Email;
-            ckbAtivo.Checked = (bool)usuario.Ativo;
+            if (usuario.Ativo != null)
+                ckbAtivo.Checked = (bool)usuario.Ativo;
+
             if (usuario.UsuarioFotoPerfil != null)
             {
-                pcbFotoPerfil.ImageLocation = usuario.UsuarioFotoPerfil.Caminho;
+                var bytes = usuario.UsuarioFotoPerfil.Arquivo;
+                var nomeArquivo = Path.Combine(PASTA_TEMP_APP, usuario.UsuarioFotoPerfil.Nome);
+                if (!File.Exists(nomeArquivo))
+                    using (var fileStream = new FileStream(nomeArquivo, FileMode.CreateNew, FileAccess.Write))
+                    {
+                        fileStream.Write(bytes, 0, bytes.Length);
+                        fileStream.Flush();
+                    }
+                pcbFotoPerfil.Image = Image.FromFile(nomeArquivo);
                 btnAlterarFotoPerfil.Enabled = true;
                 btnApagarFotoPerfil.Enabled = true;
             }
@@ -124,6 +138,7 @@ namespace WindowsForms
             btnSalvarFotoPerfil.Enabled = false;
             pcbFotoPerfil.ImageLocation = String.Empty;
             ofdFotoPerfil.FileName = String.Empty;
+            pcbFotoPerfil.Image = null;
         }
 
         private void btnAtualizar_Click(object sender, EventArgs e)
@@ -178,6 +193,14 @@ namespace WindowsForms
                         throw new Exception("Não há usuário con o código informado!");
                     else
                     {
+                        if (usuario.UsuarioFotoPerfil != null)
+                        {
+                            pcbFotoPerfil.Image = null;
+                            if (File.Exists(usuario.UsuarioFotoPerfil.Caminho))
+                                File.Delete(usuario.UsuarioFotoPerfil.Caminho);
+                            if (File.Exists(Path.Combine(PASTA_TEMP_APP, usuario.UsuarioFotoPerfil.Nome)))
+                                File.Delete(Path.Combine(PASTA_TEMP_APP, usuario.UsuarioFotoPerfil.Nome));
+                        }
                         usuarioService.ApagarUsuarioNHibernate(usuario);
                         MessageBox.Show(
                             String.Format("Usuário removido com sucesso!"),
@@ -257,8 +280,17 @@ namespace WindowsForms
 
                     var usuarioFoto = new UsuarioFotoPerfil();
                     usuarioFoto.Usuario = usuario;
-                    usuarioFoto.Nome = ofdFotoPerfil.FileName;
+                    usuarioFoto.Nome = ofdFotoPerfil.SafeFileName;
                     usuarioFoto.Caminho = ofdFotoPerfil.FileName;
+                    usuarioFoto.MimeType = string.Format("image/{0}", ofdFotoPerfil.SafeFileName.Split(".")[1]);
+                    FileInfo fileInfo = new FileInfo(ofdFotoPerfil.FileName);
+                    byte[] bytes = null;
+                    using (var fileStream = new FileStream(ofdFotoPerfil.FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    {
+                        bytes = new byte[Convert.ToInt32(fileInfo.Length)];
+                        int iBytesRead = fileStream.Read(bytes, 0, Convert.ToInt32(fileInfo.Length));
+                    }
+                    usuarioFoto.Arquivo = bytes;
                     usuarioService.CadastrarFotoNHibernate(usuarioFoto);
                     btnSalvarFotoPerfil.Enabled = false;
                     btnAlterarFotoPerfil.Enabled = !btnSalvarFotoPerfil.Enabled;
@@ -289,7 +321,8 @@ namespace WindowsForms
             ofdFotoPerfil.Filter = "Foto (*.png)|*.png|Todos Arquivos (*.*)|*.*";
             ofdFotoPerfil.CheckFileExists = true;
             ofdFotoPerfil.ShowDialog();
-            pcbFotoPerfil.ImageLocation = ofdFotoPerfil.FileName;
+            if(File.Exists(ofdFotoPerfil.FileName))
+                pcbFotoPerfil.Image = Image.FromFile(ofdFotoPerfil.FileName);
         }
 
         private void btnApagarFotoPerfil_Click(object sender, EventArgs e)
@@ -304,6 +337,11 @@ namespace WindowsForms
                 {
                     var usuario = usuarioService.BuscarPorIdNHibernate(Int64.Parse(txtId.Text));
                     var usuarioFoto = usuario.UsuarioFotoPerfil;
+                    pcbFotoPerfil.Image = null;
+                    if (File.Exists(usuarioFoto.Caminho))
+                        File.Delete(usuarioFoto.Caminho);
+                    if (File.Exists(Path.Combine(PASTA_TEMP_APP, usuarioFoto.Nome)))
+                        File.Delete(Path.Combine(PASTA_TEMP_APP, usuarioFoto.Nome));
                     usuarioService.ApagarFotoUsuarioNHibernate(usuarioFoto);
                     pcbFotoPerfil.ImageLocation = String.Empty;
                     ofdFotoPerfil.FileName = String.Empty;
@@ -311,7 +349,7 @@ namespace WindowsForms
                     btnAlterarFotoPerfil.Enabled = !btnSalvarFotoPerfil.Enabled;
                     btnApagarFotoPerfil.Enabled = !btnSalvarFotoPerfil.Enabled;
                     MessageBox.Show(
-                       "Foto alterada com sucesso!",
+                       "Foto apagada com sucesso!",
                        "Informação",
                        MessageBoxButtons.OK,
                        MessageBoxIcon.Information
