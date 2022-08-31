@@ -9,6 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="img\WindowsForms.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="img\WindowsForms.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include=".editorconfig" Link=".editorconfig" />
   </ItemGroup>
 

@@ -3,12 +3,33 @@
     public partial class frmPrincipal : Form
     {
         private int childFormNumber = 0;
+        private bool allowVisible;
+        private bool allowClose;
 
         public frmPrincipal()
         {
             InitializeComponent();
             toolStripStatusLabel.Text = string.Format("Existe {0} telas abertas", childFormNumber);
-            tsmiCRUDEntityFrameworkToolStripMenuItem_Click(null, null);
+        }
+
+        protected override void SetVisibleCore(bool value)
+        {
+            if (!allowVisible)
+            {
+                value = false;
+                if (!this.IsHandleCreated) CreateHandle();
+            }
+            base.SetVisibleCore(value);
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            if (!allowClose)
+            {
+                this.Hide();
+                e.Cancel = true;
+            }
+            base.OnFormClosing(e);
         }
 
         private void ShowNewForm(object sender, EventArgs e)
@@ -74,6 +95,12 @@
             var childForm = new frmCRUDSQL();
             childForm.MdiParent = this;
             childForm.Show();
+        }
+
+        private void abrirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            allowVisible = true;
+            Show();
         }
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPrincipal));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,8 +39,12 @@
             this.fecharToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ntiWindowsForms = new System.Windows.Forms.NotifyIcon(this.components);
+            this.cmsWindowsForms = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.abrirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
+            this.cmsWindowsForms.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -121,6 +126,27 @@
             this.toolStripStatusLabel.Size = new System.Drawing.Size(39, 17);
             this.toolStripStatusLabel.Text = "Status";
             // 
+            // ntiWindowsForms
+            // 
+            this.ntiWindowsForms.ContextMenuStrip = this.cmsWindowsForms;
+            this.ntiWindowsForms.Icon = ((System.Drawing.Icon)(resources.GetObject("ntiWindowsForms.Icon")));
+            this.ntiWindowsForms.Text = "WindowsForms";
+            this.ntiWindowsForms.Visible = true;
+            // 
+            // cmsWindowsForms
+            // 
+            this.cmsWindowsForms.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.abrirToolStripMenuItem});
+            this.cmsWindowsForms.Name = "cmsWindowsForms";
+            this.cmsWindowsForms.Size = new System.Drawing.Size(101, 26);
+            // 
+            // abrirToolStripMenuItem
+            // 
+            this.abrirToolStripMenuItem.Name = "abrirToolStripMenuItem";
+            this.abrirToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.abrirToolStripMenuItem.Text = "Abrir";
+            this.abrirToolStripMenuItem.Click += new System.EventHandler(this.abrirToolStripMenuItem_Click);
+            // 
             // frmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -138,6 +164,7 @@
             this.menuStrip.PerformLayout();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
+            this.cmsWindowsForms.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -154,6 +181,9 @@
         private ToolStripMenuItem tsmiCRUDNHibernateToolStripMenuItem;
         private ToolStripMenuItem tsmiCRUDEntityFrameworkToolStripMenuItem;
         private ToolStripMenuItem tsmiCRUDSQLToolStripMenuItem;
+        private NotifyIcon ntiWindowsForms;
+        private ContextMenuStrip cmsWindowsForms;
+        private ToolStripMenuItem abrirToolStripMenuItem;
     }
 }
 
