@@ -1,15 +1,20 @@
-﻿namespace WindowsForms
+﻿using WindowsForms.view;
+
+namespace WindowsForms
 {
     public partial class frmPrincipal : Form
     {
         private int childFormNumber = 0;
-        private bool allowVisible;
+        private bool allowVisible = true;
         private bool allowClose;
 
         public frmPrincipal()
         {
             InitializeComponent();
             toolStripStatusLabel.Text = string.Format("Existe {0} telas abertas", childFormNumber);
+            var childForm = new frmControlandoLista();
+            childForm.MdiParent = this;
+            childForm.Show();
         }
 
         protected override void SetVisibleCore(bool value)
@@ -101,6 +106,14 @@
         {
             allowVisible = true;
             Show();
+        }
+
+        private void tsmiControlandoLista_Click(object sender, EventArgs e)
+        {
+            toolStripStatusLabel.Text = string.Format("Existe {0} telas abertas", childFormNumber + 1);
+            var childForm = new frmControlandoLista();
+            childForm.MdiParent = this;
+            childForm.Show();
         }
     }
 }

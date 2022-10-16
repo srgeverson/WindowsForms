@@ -42,6 +42,7 @@
             this.ntiWindowsForms = new System.Windows.Forms.NotifyIcon(this.components);
             this.cmsWindowsForms = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.abrirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiControlandoLista = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.cmsWindowsForms.SuspendLayout();
@@ -65,7 +66,8 @@
             this.tsmiThhead,
             this.tsmiCRUDNHibernateToolStripMenuItem,
             this.tsmiCRUDEntityFrameworkToolStripMenuItem,
-            this.tsmiCRUDSQLToolStripMenuItem});
+            this.tsmiCRUDSQLToolStripMenuItem,
+            this.tsmiControlandoLista});
             this.fileMenu.ImageTransparentColor = System.Drawing.SystemColors.ActiveBorder;
             this.fileMenu.Name = "fileMenu";
             this.fileMenu.Size = new System.Drawing.Size(59, 20);
@@ -147,6 +149,13 @@
             this.abrirToolStripMenuItem.Text = "Abrir";
             this.abrirToolStripMenuItem.Click += new System.EventHandler(this.abrirToolStripMenuItem_Click);
             // 
+            // tsmiControlandoLista
+            // 
+            this.tsmiControlandoLista.Name = "tsmiControlandoLista";
+            this.tsmiControlandoLista.Size = new System.Drawing.Size(200, 22);
+            this.tsmiControlandoLista.Text = "Controlando Lista";
+            this.tsmiControlandoLista.Click += new System.EventHandler(this.tsmiControlandoLista_Click);
+            // 
             // frmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -184,6 +193,7 @@
         private NotifyIcon ntiWindowsForms;
         private ContextMenuStrip cmsWindowsForms;
         private ToolStripMenuItem abrirToolStripMenuItem;
+        private ToolStripMenuItem tsmiControlandoLista;
     }
 }
 
