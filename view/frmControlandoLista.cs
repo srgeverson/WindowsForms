@@ -16,7 +16,7 @@ namespace WindowsForms.view
 
         private void btnConsulta_Click(object sender, EventArgs e)
         {
-            usuarios = usuarioService.GetUsuariosNHibernate();
+            usuarios = usuarioService.ListarTodos();
             dgvLista.DataSource = usuarios;
         }
 

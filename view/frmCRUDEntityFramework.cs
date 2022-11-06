@@ -1,23 +1,23 @@
-﻿using AppClassLibraryDomain.model.EntityFramework;
+﻿using AppClassLibraryDomain.model;
 using AppClassLibraryDomain.service;
 
 namespace WindowsForms
 {
     public partial class frmCRUDEntityFramework : Form
     {
-        private UsuarioService usuarioService;
+        private IUsuarioService _usuarioService;
         public frmCRUDEntityFramework()
         {
             InitializeComponent();
-            if (usuarioService == null)
-                usuarioService = new UsuarioService();
+            //if (_usuarioService == null)
+            //    _usuarioService = new UsuarioService();
         }
 
         private bool criticas()
         {
             try
             {
-                var usuarioComEmailExiste = usuarioService.BuscarPorEmailEntity(txtEmail.Text);
+                var usuarioComEmailExiste = _usuarioService.BuscarPorEmail(txtEmail.Text);
                 if (usuarioComEmailExiste != null)
                     throw new Exception("Já existe usuário cadastrado com o e-mail informado!");
 
@@ -45,14 +45,15 @@ namespace WindowsForms
             if (criticas())
                 try
                 {
-                    PreencheDadosUsuario(usuarioService
-                        .CadastrarEntity(new Usuario()
-                        {
-                            Nome = txtNome.Text,
-                            Email = txtEmail.Text,
-                            Ativo = ckbAtivo.Checked,
-                            Senha = txtSenha.Text
-                        }));
+                    var usuario = new Usuario()
+                    {
+                        Nome = txtNome.Text,
+                        Email = txtEmail.Text,
+                        Ativo = ckbAtivo.Checked,
+                        Senha = txtSenha.Text
+                    };
+                    _usuarioService.Adicionar(usuario);
+                    PreencheDadosUsuario(usuario);
                     MessageBox.Show(
                        String.Format("Usuário cadastrado com sucesso!"),
                        "Informativo",
@@ -77,7 +78,7 @@ namespace WindowsForms
             {
                 if (!string.IsNullOrEmpty(txtId.Text))
                 {
-                    var usuario = usuarioService.GetUsuarioPorIdEntity(int.Parse(txtId.Text));
+                    var usuario = _usuarioService.BuscarPorId(Int64.Parse(txtId.Text));
 
                     if (usuario == null)
                         throw new Exception("Não há usuário con o código informado!");
@@ -85,7 +86,7 @@ namespace WindowsForms
                         PreencheDadosUsuario(usuario);
                 }
                 else
-                    dgvUsuarios.DataSource = usuarioService.GetUsuariosEntity();
+                    dgvUsuarios.DataSource = _usuarioService.ListarTodos();
             }
             catch (Exception ex)
             {
@@ -119,15 +120,15 @@ namespace WindowsForms
             if (criticas())
                 try
                 {
-                    var usuario = usuarioService
-                        .AtualizarEntity(new Usuario()
-                        {
-                            Id = int.Parse(txtId.Text),
-                            Nome = txtNome.Text,
-                            Email = txtEmail.Text,
-                            Ativo = ckbAtivo.Checked,
-                            Senha = txtSenha.Text
-                        });
+                    var usuario = new Usuario()
+                    {
+                        Id = int.Parse(txtId.Text),
+                        Nome = txtNome.Text,
+                        Email = txtEmail.Text,
+                        Ativo = ckbAtivo.Checked,
+                        Senha = txtSenha.Text
+                    };
+                    _usuarioService.Alterar(usuario);
                     MessageBox.Show(
                        String.Format("Usuário atualizado com sucesso!"),
                        "Informativo",
@@ -159,12 +160,12 @@ namespace WindowsForms
             {
                 if (!string.IsNullOrEmpty(txtId.Text))
                 {
-                    var usuario = usuarioService.GetUsuarioPorIdEntity(int.Parse(txtId.Text));
+                    var usuario = _usuarioService.BuscarPorId(Int64.Parse(txtId.Text));
                     if (usuario == null)
                         throw new Exception("Não há usuário con o código informado!");
                     else
                     {
-                        usuarioService.ApagarUsuarioEntity(usuario);
+                        _usuarioService.Excluir(Int64.Parse(txtId.Text));
                         MessageBox.Show(
                             String.Format("Usuário removido com sucesso!"),
                             "Informativo",

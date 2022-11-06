@@ -1,6 +1,3 @@
-using AppClassLibraryDomain.DAO;
-using System.Configuration;
-
 namespace WindowsForms
 {
     internal static class Program
@@ -11,9 +8,6 @@ namespace WindowsForms
         [STAThread]
         static void Main()
         {
-            if (string.IsNullOrEmpty(ConexaoDAO.URLCONEXAO))
-                ConexaoDAO.URLCONEXAO = ConfigurationManager.AppSettings["connectionString"];
-
             ApplicationConfiguration.Initialize();
             Application.Run(new frmPrincipal());
         }

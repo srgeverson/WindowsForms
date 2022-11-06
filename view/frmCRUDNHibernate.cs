@@ -5,13 +5,13 @@ namespace WindowsForms
 {
     public partial class frmCRUDNHibernate : Form
     {
-        private UsuarioService usuarioService;
+        private UsuarioService _usuarioService;
         private readonly string PASTA_TEMP_APP = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
         public frmCRUDNHibernate()
         {
             InitializeComponent();
-            if (usuarioService == null)
-                usuarioService = new UsuarioService();
+            if (_usuarioService == null)
+                _usuarioService = new UsuarioService();
 
             if (!Directory.Exists(PASTA_TEMP_APP))
                 Directory.CreateDirectory(PASTA_TEMP_APP);
@@ -21,7 +21,7 @@ namespace WindowsForms
         {
             try
             {
-                if (usuarioService.BuscarPorEmailNHibernate(txtEmail.Text) != null)
+                if (_usuarioService.BuscarPorEmail(txtEmail.Text) != null)
                     throw new Exception("Já existe usuário cadastrado com o e-maul informado!");
 
                 if (!string.IsNullOrEmpty(txtSenha.Text))
@@ -48,14 +48,15 @@ namespace WindowsForms
             if (criticas())
                 try
                 {
-                    PreencheDadosUsuario(usuarioService
-                        .CadastrarNHibernate(new Usuario()
-                        {
-                            Nome = txtNome.Text,
-                            Email = txtEmail.Text,
-                            Ativo = ckbAtivo.Checked,
-                            Senha = txtSenha.Text
-                        }));
+                    var usuario = new Usuario()
+                    {
+                        Nome = txtNome.Text,
+                        Email = txtEmail.Text,
+                        Ativo = ckbAtivo.Checked,
+                        Senha = txtSenha.Text
+                    };
+                    _usuarioService.Adicionar(usuario);
+                    PreencheDadosUsuario(usuario);
                     MessageBox.Show(
                        String.Format("Usuário cadastrado com sucesso!"),
                        "Informativo",
@@ -80,7 +81,7 @@ namespace WindowsForms
             {
                 if (!string.IsNullOrEmpty(txtId.Text))
                 {
-                    var usuario = usuarioService.BuscarPorIdNHibernate(Int64.Parse(txtId.Text));
+                    var usuario = _usuarioService.BuscarPorId(Int64.Parse(txtId.Text));
 
                     if (usuario == null)
                         throw new Exception("Não há usuário con o código informado!");
@@ -88,7 +89,7 @@ namespace WindowsForms
                         PreencheDadosUsuario(usuario);
                 }
                 else
-                    dgvUsuarios.DataSource = usuarioService.GetUsuariosNHibernate();
+                    dgvUsuarios.DataSource = _usuarioService.ListarTodos();
             }
             catch (Exception ex)
             {
@@ -146,15 +147,15 @@ namespace WindowsForms
             if (criticas())
                 try
                 {
-                    var usuario = usuarioService
-                        .AtualizarNHibernate(new Usuario()
-                        {
-                            Id = Int64.Parse(txtId.Text),
-                            Nome = txtNome.Text,
-                            Email = txtEmail.Text,
-                            Ativo = ckbAtivo.Checked,
-                            Senha = txtSenha.Text
-                        });
+                    var usuario = new Usuario()
+                    {
+                        Id = Int64.Parse(txtId.Text),
+                        Nome = txtNome.Text,
+                        Email = txtEmail.Text,
+                        Ativo = ckbAtivo.Checked,
+                        Senha = txtSenha.Text
+                    };
+                    _usuarioService.Alterar(usuario);
                     MessageBox.Show(
                        String.Format("Usuário atualizado com sucesso!"),
                        "Informativo",
@@ -188,7 +189,7 @@ namespace WindowsForms
             {
                 if (!string.IsNullOrEmpty(txtId.Text))
                 {
-                    var usuario = usuarioService.BuscarPorIdNHibernate(Int64.Parse(txtId.Text));
+                    var usuario = _usuarioService.BuscarPorId(Int64.Parse(txtId.Text));
                     if (usuario == null)
                         throw new Exception("Não há usuário con o código informado!");
                     else
@@ -201,7 +202,7 @@ namespace WindowsForms
                             if (File.Exists(Path.Combine(PASTA_TEMP_APP, usuario.UsuarioFotoPerfil.Nome)))
                                 File.Delete(Path.Combine(PASTA_TEMP_APP, usuario.UsuarioFotoPerfil.Nome));
                         }
-                        usuarioService.ApagarUsuarioNHibernate(usuario);
+                        _usuarioService.Excluir(usuario.Id);
                         MessageBox.Show(
                             String.Format("Usuário removido com sucesso!"),
                             "Informativo",
@@ -234,11 +235,11 @@ namespace WindowsForms
                 }
                 else
                 {
-                    var usuario = usuarioService.BuscarPorIdNHibernate(Int64.Parse(txtId.Text));
+                    var usuario = _usuarioService.BuscarPorId(Int64.Parse(txtId.Text));
                     var usuarioFoto = usuario.UsuarioFotoPerfil;
                     usuarioFoto.Nome = ofdFotoPerfil.FileName;
                     usuarioFoto.Caminho = ofdFotoPerfil.FileName;
-                    usuarioService.AtualizarFotoNHibernate(usuarioFoto);
+                    _usuarioService.AtualizarFoto(usuarioFoto);
                     btnSalvarFotoPerfil.Enabled = false;
                     btnAlterarFotoPerfil.Enabled = !btnSalvarFotoPerfil.Enabled;
                     btnApagarFotoPerfil.Enabled = !btnSalvarFotoPerfil.Enabled;
@@ -271,7 +272,7 @@ namespace WindowsForms
                 }
                 else
                 {
-                    var usuario = usuarioService.BuscarPorIdNHibernate(Int64.Parse(txtId.Text));
+                    var usuario = _usuarioService.BuscarPorId(Int64.Parse(txtId.Text));
                     if (usuario == null)
                         throw new Exception("Não há usuário con o código informado!");
 
@@ -291,7 +292,7 @@ namespace WindowsForms
                         int iBytesRead = fileStream.Read(bytes, 0, Convert.ToInt32(fileInfo.Length));
                     }
                     usuarioFoto.Arquivo = bytes;
-                    usuarioService.CadastrarFotoNHibernate(usuarioFoto);
+                    _usuarioService.CadastrarFoto(usuarioFoto);
                     btnSalvarFotoPerfil.Enabled = false;
                     btnAlterarFotoPerfil.Enabled = !btnSalvarFotoPerfil.Enabled;
                     btnApagarFotoPerfil.Enabled = !btnSalvarFotoPerfil.Enabled;
@@ -335,14 +336,14 @@ namespace WindowsForms
                 }
                 else
                 {
-                    var usuario = usuarioService.BuscarPorIdNHibernate(Int64.Parse(txtId.Text));
+                    var usuario = _usuarioService.BuscarPorId(Int64.Parse(txtId.Text));
                     var usuarioFoto = usuario.UsuarioFotoPerfil;
                     pcbFotoPerfil.Image = null;
                     if (File.Exists(usuarioFoto.Caminho))
                         File.Delete(usuarioFoto.Caminho);
                     if (File.Exists(Path.Combine(PASTA_TEMP_APP, usuarioFoto.Nome)))
                         File.Delete(Path.Combine(PASTA_TEMP_APP, usuarioFoto.Nome));
-                    usuarioService.ApagarFotoUsuarioNHibernate(usuarioFoto);
+                    _usuarioService.ApagarFotoUsuario(usuarioFoto);
                     pcbFotoPerfil.ImageLocation = String.Empty;
                     ofdFotoPerfil.FileName = String.Empty;
                     btnSalvarFotoPerfil.Enabled = true;

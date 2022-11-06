@@ -17,7 +17,7 @@ namespace WindowsForms
         {
             try
             {
-                if (usuarioService.BuscarPorEmailNHibernate(txtEmail.Text) != null)
+                if (usuarioService.BuscarPorEmail(txtEmail.Text) != null)
                     throw new Exception("Já existe usuário cadastrado com o e-maul informado!");
 
                 if (!string.IsNullOrEmpty(txtSenha.Text))
@@ -44,14 +44,15 @@ namespace WindowsForms
             if (criticas())
                 try
                 {
-                    PreencheDadosUsuario(usuarioService
-                        .CadastrarSQL(new Usuario()
-                        {
-                            Nome = txtNome.Text,
-                            Email = txtEmail.Text,
-                            Ativo = ckbAtivo.Checked,
-                            Senha = txtSenha.Text
-                        }));
+                    var usuario = new Usuario()
+                    {
+                        Nome = txtNome.Text,
+                        Email = txtEmail.Text,
+                        Ativo = ckbAtivo.Checked,
+                        Senha = txtSenha.Text
+                    };
+                    usuarioService.Adicionar(usuario);
+                    PreencheDadosUsuario(usuario);
                     MessageBox.Show(
                        String.Format("Usuário cadastrado com sucesso!"),
                        "Informativo",
@@ -76,7 +77,7 @@ namespace WindowsForms
             {
                 if (!string.IsNullOrEmpty(txtId.Text))
                 {
-                    var usuario = usuarioService.BuscarPorIdSQL(int.Parse(txtId.Text));
+                    var usuario = usuarioService.BuscarPorId(int.Parse(txtId.Text));
 
                     if (usuario == null)
                         throw new Exception("Não há usuário con o código informado!");
@@ -84,7 +85,7 @@ namespace WindowsForms
                         PreencheDadosUsuario(usuario);
                 }
                 else
-                    dgvUsuarios.DataSource = usuarioService.GetUsuariosSQL();
+                    dgvUsuarios.DataSource = usuarioService.ListarTodos();
             }
             catch (Exception ex)
             {
@@ -121,14 +122,15 @@ namespace WindowsForms
             if (criticas())
                 try
                 {
-                    var usuario = usuarioService
-                        .AlterarPorIdSQL(new Usuario()
+                    usuarioService
+                        .Alterar(new Usuario()
                         {
+                            Id= Int64.Parse(txtId.Text),
                             Nome = txtNome.Text,
                             Email = txtEmail.Text,
                             Ativo = ckbAtivo.Checked,
                             Senha = txtSenha.Text
-                        }, Int64.Parse(txtId.Text));
+                        });
                     MessageBox.Show(
                        String.Format("Usuário atualizado com sucesso!"),
                        "Informativo",
@@ -160,12 +162,12 @@ namespace WindowsForms
             {
                 if (!string.IsNullOrEmpty(txtId.Text))
                 {
-                    var usuario = usuarioService.BuscarPorIdNHibernate(Int64.Parse(txtId.Text));
+                    var usuario = usuarioService.BuscarPorId(Int64.Parse(txtId.Text));
                     if (usuario == null)
                         throw new Exception("Não há usuário con o código informado!");
                     else
                     {
-                        usuarioService.ApagarPorIdSQL(usuario.Id);
+                        usuarioService.Excluir(usuario.Id);
                         MessageBox.Show(
                             String.Format("Usuário removido com sucesso!"),
                             "Informativo",
