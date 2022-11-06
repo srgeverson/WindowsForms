@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <objects xmlns="http://www.springframework.net">
 	<description>DI/IoC DAO</description>
-		
+	
 	<object name="ContatoSQLDAO" type="AppClassLibraryDomain.DAO.SQL.ContatoDAO, AppClassLibraryDomain">
 		<property name="ConnectionFactoryDAO" ref="ConnectionFactoryDAO" />
 	</object>
@@ -9,7 +9,11 @@
 	<object name="UsuarioSQLDAO" type="AppClassLibraryDomain.DAO.SQL.UsuarioSQLDAO, AppClassLibraryDomain">
 		<property name="urlConnection" ref="UrlConnection"/>
 	</object>
-
+	
+	<object name="UsuarioNHibernateDAO" type="AppClassLibraryDomain.DAO.NHibernate.UsuarioNHibernateDAO, AppClassLibraryDomain">
+		<property name="SessionFactoryImpl" ref="SessionFactoryImpl"/>
+	</object>
+	
 	<object name="PermissaoSQLDAO" type="AppClassLibraryDomain.DAO.SQL.PermissaoDAO, AppClassLibraryDomain">
 		<property name="urlConnection" ref="UrlConnection"/>
 	</object>

@@ -7,7 +7,11 @@
 	</object>
 	
 	<object name="UsuarioService" type="AppClassLibraryDomain.service.UsuarioService, AppClassLibraryDomain" >
-		<property name="usuarioDAO" ref="UsuarioSQLDAO" />
+		<property name="UsuarioDAO" ref="UsuarioSQLDAO" />
+	</object>
+
+	<object name="UsuarioNHibernateService" type="AppClassLibraryDomain.service.UsuarioService, AppClassLibraryDomain" >
+		<property name="UsuarioDAO" ref="UsuarioNHibernateDAO" />
 	</object>
 	
 </objects>

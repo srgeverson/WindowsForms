@@ -1,17 +1,20 @@
 ﻿using AppClassLibraryDomain.model;
 using AppClassLibraryDomain.service;
+using Spring.Context;
+using Spring.Context.Support;
 
 namespace WindowsForms
 {
     public partial class frmCRUDNHibernate : Form
     {
-        private UsuarioService _usuarioService;
+        private IUsuarioService _usuarioService;
+        private static readonly IApplicationContext CONTEXT = ContextRegistry.GetContext();
         private readonly string PASTA_TEMP_APP = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
         public frmCRUDNHibernate()
         {
             InitializeComponent();
             if (_usuarioService == null)
-                _usuarioService = new UsuarioService();
+                _usuarioService = (IUsuarioService)CONTEXT.GetObject("UsuarioNHibernateService");
 
             if (!Directory.Exists(PASTA_TEMP_APP))
                 Directory.CreateDirectory(PASTA_TEMP_APP);

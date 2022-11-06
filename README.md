@@ -53,6 +53,15 @@ $ NHibernate 5.3.12
 ### Convert um Objeto Model/Entity para um Objeto DTO
 $ AutoMapper 9.0.0
 
+# Spring.Core 3.0
+$ [Spring.Core](https://www.nuget.org/packages/Spring.Core/3.0.0/ReportAbuse)
+
+# Spring.Data 3.0
+$ [Spring.Data](https://www.nuget.org/packages/Spring.Data/3.0.0/ReportAbuse)
+
+# Spring.Aop 3.0
+$ [Spring.Aop](https://www.nuget.org/packages/Spring.Aop/3.0.0/ReportAbuse)
+
 ```
 
 ## 👨‍💻 Equipe de Desenvolvimento

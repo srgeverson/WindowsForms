@@ -8,14 +8,14 @@ namespace WindowsForms.view
     public partial class frmControlandoLista : Form
     {
 
-        private static IApplicationContext CONTEXT = ContextRegistry.GetContext();
+        private static readonly IApplicationContext CONTEXT = ContextRegistry.GetContext();
         private IUsuarioService _usuarioService;
         private IList<Usuario> usuarios = new List<Usuario>();
         public frmControlandoLista()
         {
             InitializeComponent();
             if (_usuarioService == null)
-                _usuarioService = (IUsuarioService)CONTEXT.GetObject("UsuarioService");
+                _usuarioService = (IUsuarioService)CONTEXT.GetObject("UsuarioNHibernateService");
         }
 
         private void btnConsulta_Click(object sender, EventArgs e)
