@@ -1,23 +1,39 @@
 ﻿using AppClassLibraryDomain.model;
 using AppClassLibraryDomain.service;
+using Spring.Context;
+using Spring.Context.Support;
 
 namespace WindowsForms.view
 {
     public partial class frmControlandoLista : Form
     {
-        private UsuarioService usuarioService;
+
+        private static IApplicationContext CONTEXT = ContextRegistry.GetContext();
+        private IUsuarioService _usuarioService;
         private IList<Usuario> usuarios = new List<Usuario>();
         public frmControlandoLista()
         {
             InitializeComponent();
-            if (usuarioService == null)
-                usuarioService = new UsuarioService();
+            if (_usuarioService == null)
+                _usuarioService = (IUsuarioService)CONTEXT.GetObject("UsuarioService");
         }
 
         private void btnConsulta_Click(object sender, EventArgs e)
         {
-            usuarios = usuarioService.ListarTodos();
-            dgvLista.DataSource = usuarios;
+            try
+            {
+                usuarios = _usuarioService.ListarTodos();
+                dgvLista.DataSource = usuarios;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                      String.Format(ex.Message),
+                      "Erro",
+                      MessageBoxButtons.OK,
+                      MessageBoxIcon.Error
+                      );
+            }
         }
 
         private void btnRemoveObjeto_Click(object sender, EventArgs e)
