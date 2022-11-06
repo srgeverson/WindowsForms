@@ -13,6 +13,18 @@
   </ItemGroup>
 
   <ItemGroup>
+	<None Update="Config\db.xml">
+		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	</None>
+	<None Update="Config\dao.xml">
+		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	</None>
+	<None Update="Config\services.xml">
+		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	</None>
     <EmbeddedResource Include="img\WindowsForms.ico" />
   </ItemGroup>
 

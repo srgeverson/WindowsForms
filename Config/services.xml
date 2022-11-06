@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+	<description>DI/IoC Services</description>
+	
+	<object name="ContatoService" type="AppClassLibraryDomain.service.ContatoService, AppClassLibraryDomain" >
+		<property name="ContatoDAO" ref="ContatoSQLDAO" />
+	</object>
+	
+	<object name="UsuarioService" type="AppClassLibraryDomain.service.UsuarioService, AppClassLibraryDomain" >
+		<property name="usuarioDAO" ref="UsuarioSQLDAO" />
+	</object>
+	
+</objects>
