@@ -13,5 +13,9 @@
 	<object name="UsuarioNHibernateService" type="AppClassLibraryDomain.service.UsuarioService, AppClassLibraryDomain" >
 		<property name="UsuarioDAO" ref="UsuarioNHibernateDAO" />
 	</object>
+
+	<object name="UsuarioEntityFrameworkService" type="AppClassLibraryDomain.service.UsuarioService, AppClassLibraryDomain" >
+		<property name="UsuarioDAO" ref="UsuarioEntityFrameworkDAO" />
+	</object>
 	
 </objects>

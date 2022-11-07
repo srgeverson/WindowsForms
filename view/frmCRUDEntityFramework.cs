@@ -1,4 +1,6 @@
-﻿using AppClassLibraryDomain.model;
+﻿using Spring.Context;
+using Spring.Context.Support;
+using AppClassLibraryDomain.model;
 using AppClassLibraryDomain.service;
 
 namespace WindowsForms
@@ -6,11 +8,12 @@ namespace WindowsForms
     public partial class frmCRUDEntityFramework : Form
     {
         private IUsuarioService _usuarioService;
+        private static readonly IApplicationContext CONTEXT = ContextRegistry.GetContext();
         public frmCRUDEntityFramework()
         {
             InitializeComponent();
-            //if (_usuarioService == null)
-            //    _usuarioService = new UsuarioService();
+            if (_usuarioService == null)
+                _usuarioService = (IUsuarioService)CONTEXT.GetObject("UsuarioEntityFrameworkService");
         }
 
         private bool criticas()

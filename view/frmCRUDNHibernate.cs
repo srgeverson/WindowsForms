@@ -152,7 +152,7 @@ namespace WindowsForms
                 {
                     var usuario = new Usuario()
                     {
-                        Id = Int64.Parse(txtId.Text),
+                        Id = Int32.Parse(txtId.Text),
                         Nome = txtNome.Text,
                         Email = txtEmail.Text,
                         Ativo = ckbAtivo.Checked,

@@ -14,6 +14,10 @@
 		<property name="SessionFactoryImpl" ref="SessionFactoryImpl"/>
 	</object>
 	
+	<object name="UsuarioEntityFrameworkDAO" type="AppClassLibraryDomain.DAO.EntityFramework.UsuarioEntityFrameworkDAO, AppClassLibraryDomain">
+		<property name="ContextFactory" ref="ContextFactory"/>
+	</object>
+
 	<object name="PermissaoSQLDAO" type="AppClassLibraryDomain.DAO.SQL.PermissaoDAO, AppClassLibraryDomain">
 		<property name="urlConnection" ref="UrlConnection"/>
 	</object>

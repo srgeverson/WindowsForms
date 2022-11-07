@@ -5,6 +5,8 @@
 	<object name="ConnectionFactoryDAO" type="AppClassLibraryDomain.DAO.SQL.ConnectionFactoryDAO, AppClassLibraryDomain" />
 	<!--Classe que Cria uma instancia com todos os assemblies-->
 	<object name="SessionFactoryImpl" type="AppClassLibraryDomain.DAO.NHibernate.SessionFactoryImpl, AppClassLibraryDomain"  />
+	<!--Classe que contém os contextos do Entity Framework-->
+	<object name="ContextFactory" type="AppClassLibraryDomain.DAO.EntityFramework.ContextFactory, AppClassLibraryDomain"  />
 	<!--Cria uma propriedade com o valor especificado aqui-->
 	<object id="UrlConnection" type="System.String" factory-method="Copy">
 		<constructor-arg index="0">
