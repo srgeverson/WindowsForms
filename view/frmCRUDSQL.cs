@@ -1,23 +1,26 @@
 ﻿using AppClassLibraryDomain.model;
 using AppClassLibraryDomain.service;
+using Spring.Context;
+using Spring.Context.Support;
 
 namespace WindowsForms
 {
     public partial class frmCRUDSQL : Form
     {
-        private UsuarioService usuarioService;
+        private IUsuarioService _usuarioService;
+        private static readonly IApplicationContext CONTEXT = ContextRegistry.GetContext();
         public frmCRUDSQL()
         {
             InitializeComponent();
-            if (usuarioService == null)
-                usuarioService = new UsuarioService();
+            if (_usuarioService == null)
+                _usuarioService = (IUsuarioService)CONTEXT.GetObject("UsuarioService");
         }
 
         private bool criticas()
         {
             try
             {
-                if (usuarioService.BuscarPorEmail(txtEmail.Text) != null)
+                if (_usuarioService.BuscarPorEmail(txtEmail.Text) != null)
                     throw new Exception("Já existe usuário cadastrado com o e-maul informado!");
 
                 if (!string.IsNullOrEmpty(txtSenha.Text))
@@ -51,7 +54,7 @@ namespace WindowsForms
                         Ativo = ckbAtivo.Checked,
                         Senha = txtSenha.Text
                     };
-                    usuarioService.Adicionar(usuario);
+                    _usuarioService.Adicionar(usuario);
                     PreencheDadosUsuario(usuario);
                     MessageBox.Show(
                        String.Format("Usuário cadastrado com sucesso!"),
@@ -77,7 +80,7 @@ namespace WindowsForms
             {
                 if (!string.IsNullOrEmpty(txtId.Text))
                 {
-                    var usuario = usuarioService.BuscarPorId(int.Parse(txtId.Text));
+                    var usuario = _usuarioService.BuscarPorId(int.Parse(txtId.Text));
 
                     if (usuario == null)
                         throw new Exception("Não há usuário con o código informado!");
@@ -85,7 +88,7 @@ namespace WindowsForms
                         PreencheDadosUsuario(usuario);
                 }
                 else
-                    dgvUsuarios.DataSource = usuarioService.ListarTodos();
+                    dgvUsuarios.DataSource = _usuarioService.ListarTodos();
             }
             catch (Exception ex)
             {
@@ -122,7 +125,7 @@ namespace WindowsForms
             if (criticas())
                 try
                 {
-                    usuarioService
+                    _usuarioService
                         .Alterar(new Usuario()
                         {
                             Id= Int32.Parse(txtId.Text),
@@ -162,12 +165,12 @@ namespace WindowsForms
             {
                 if (!string.IsNullOrEmpty(txtId.Text))
                 {
-                    var usuario = usuarioService.BuscarPorId(Int64.Parse(txtId.Text));
+                    var usuario = _usuarioService.BuscarPorId(Int64.Parse(txtId.Text));
                     if (usuario == null)
                         throw new Exception("Não há usuário con o código informado!");
                     else
                     {
-                        usuarioService.Excluir(usuario.Id);
+                        _usuarioService.Excluir(usuario.Id);
                         MessageBox.Show(
                             String.Format("Usuário removido com sucesso!"),
                             "Informativo",
