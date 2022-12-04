@@ -1,4 +1,7 @@
-﻿using WindowsForms.view;
+﻿using AppClassLibraryDomain.service;
+using Spring.Context;
+using Spring.Context.Support;
+using WindowsForms.view;
 
 namespace WindowsForms
 {
@@ -7,14 +10,33 @@ namespace WindowsForms
         private int childFormNumber = 0;
         private bool allowVisible = true;
         private bool allowClose;
+        private static readonly IApplicationContext CONTEXT = ContextRegistry.GetContext();
+        private ISistemaService _sistemaService;
 
         public frmPrincipal()
         {
-            InitializeComponent();
-            toolStripStatusLabel.Text = string.Format("Existe {0} telas abertas", childFormNumber);
-            var childForm = new frmControlandoLista();
-            childForm.MdiParent = this;
-            childForm.Show();
+            try
+            {
+
+                InitializeComponent();
+                toolStripStatusLabel.Text = string.Format("Existe {0} telas abertas", childFormNumber);
+                if (_sistemaService == null)
+                    _sistemaService = (ISistemaService)CONTEXT.GetObject("SistemaNHibernateService");
+                tsslSistema.Text = _sistemaService.Sistema(AppDomain.CurrentDomain.FriendlyName.Split('.')[0]);
+                //var childForm = new frmControlandoLista();
+                //childForm.MdiParent = this;
+                //childForm.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                      String.Format("Houve erro ao inicializar sistema. Detalhes: {0}", ex.Message),
+                      "Erro",
+                      MessageBoxButtons.OK,
+                      MessageBoxIcon.Error
+                      );
+                throw;
+            }
         }
 
         protected override void SetVisibleCore(bool value)
@@ -39,7 +61,7 @@ namespace WindowsForms
 
         private void ShowNewForm(object sender, EventArgs e)
         {
-            toolStripStatusLabel.Text = string.Format("Existe {0} telas abertas", childFormNumber+1);
+            toolStripStatusLabel.Text = string.Format("Existe {0} telas abertas", childFormNumber + 1);
             var childForm = new frmTHread();
             childForm.MdiParent = this;
             childForm.Show();

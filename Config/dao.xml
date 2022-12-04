@@ -21,5 +21,8 @@
 	<object name="PermissaoSQLDAO" type="AppClassLibraryDomain.DAO.SQL.PermissaoDAO, AppClassLibraryDomain">
 		<property name="urlConnection" ref="UrlConnection"/>
 	</object>
-	
+
+	<object name="SistemaNHibernateDAO" type="AppClassLibraryDomain.DAO.NHibernate.SistemaNHibernateDAO, AppClassLibraryDomain">
+		<property name="SessionFactoryImpl" ref="SessionFactoryImpl"/>
+	</object>	
 </objects>
