@@ -26,6 +26,7 @@ namespace WindowsForms
                 //var childForm = new frmControlandoLista();
                 //childForm.MdiParent = this;
                 //childForm.Show();
+                var feriados = _sistemaService.BuscarFeriadoPorAno(DateTime.Now.Year);
             }
             catch (Exception ex)
             {
