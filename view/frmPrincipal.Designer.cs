@@ -38,12 +38,14 @@
             this.tsmiCRUDSQLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiControlandoLista = new System.Windows.Forms.ToolStripMenuItem();
             this.fecharToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiSistema = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiConfiguracoes = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tsslSistema = new System.Windows.Forms.ToolStripStatusLabel();
             this.ntiWindowsForms = new System.Windows.Forms.NotifyIcon(this.components);
             this.cmsWindowsForms = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.abrirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsslSistema = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.cmsWindowsForms.SuspendLayout();
@@ -54,6 +56,7 @@
             this.menuStrip.ImageScalingSize = new System.Drawing.Size(48, 48);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileMenu,
+            this.tsmiSistema,
             this.fecharToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
@@ -120,6 +123,21 @@
             this.fecharToolStripMenuItem.Text = "Fechar";
             this.fecharToolStripMenuItem.Click += new System.EventHandler(this.fecharToolStripMenuItem_Click);
             // 
+            // tsmiSistema
+            // 
+            this.tsmiSistema.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiConfiguracoes});
+            this.tsmiSistema.Name = "tsmiSistema";
+            this.tsmiSistema.Size = new System.Drawing.Size(171, 52);
+            this.tsmiSistema.Text = "Sistema";
+            // 
+            // tsmiConfiguracoes
+            // 
+            this.tsmiConfiguracoes.Name = "tsmiConfiguracoes";
+            this.tsmiConfiguracoes.Size = new System.Drawing.Size(538, 66);
+            this.tsmiConfiguracoes.Text = "Configurações";
+            this.tsmiConfiguracoes.Click += new System.EventHandler(this.tsmiConfiguracoes_Click);
+            // 
             // statusStrip
             // 
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(48, 48);
@@ -138,6 +156,12 @@
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
             this.toolStripStatusLabel.Size = new System.Drawing.Size(115, 48);
             this.toolStripStatusLabel.Text = "Status";
+            // 
+            // tsslSistema
+            // 
+            this.tsslSistema.Name = "tsslSistema";
+            this.tsslSistema.Size = new System.Drawing.Size(194, 48);
+            this.tsslSistema.Text = "tsslSistema";
             // 
             // ntiWindowsForms
             // 
@@ -160,12 +184,6 @@
             this.abrirToolStripMenuItem.Size = new System.Drawing.Size(179, 56);
             this.abrirToolStripMenuItem.Text = "Abrir";
             this.abrirToolStripMenuItem.Click += new System.EventHandler(this.abrirToolStripMenuItem_Click);
-            // 
-            // tsslSistema
-            // 
-            this.tsslSistema.Name = "tsslSistema";
-            this.tsslSistema.Size = new System.Drawing.Size(194, 48);
-            this.tsslSistema.Text = "tsslSistema";
             // 
             // frmPrincipal
             // 
@@ -206,6 +224,8 @@
         private ToolStripMenuItem abrirToolStripMenuItem;
         private ToolStripMenuItem tsmiControlandoLista;
         private ToolStripStatusLabel tsslSistema;
+        private ToolStripMenuItem tsmiSistema;
+        private ToolStripMenuItem tsmiConfiguracoes;
     }
 }
 

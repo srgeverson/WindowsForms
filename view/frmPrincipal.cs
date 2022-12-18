@@ -22,11 +22,11 @@ namespace WindowsForms
                 toolStripStatusLabel.Text = string.Format("Existe {0} telas abertas", childFormNumber);
                 if (_sistemaService == null)
                     _sistemaService = (ISistemaService)CONTEXT.GetObject("SistemaNHibernateService");
+                var feriados = _sistemaService.BuscarFeriadoPorAno(DateTime.Now.Year);
                 tsslSistema.Text = _sistemaService.Sistema(AppDomain.CurrentDomain.FriendlyName.Split('.')[0]);
                 //var childForm = new frmControlandoLista();
                 //childForm.MdiParent = this;
                 //childForm.Show();
-                var feriados = _sistemaService.BuscarFeriadoPorAno(DateTime.Now.Year);
             }
             catch (Exception ex)
             {
@@ -135,6 +135,14 @@ namespace WindowsForms
         {
             toolStripStatusLabel.Text = string.Format("Existe {0} telas abertas", childFormNumber + 1);
             var childForm = new frmControlandoLista();
+            childForm.MdiParent = this;
+            childForm.Show();
+        }
+
+        private void tsmiConfiguracoes_Click(object sender, EventArgs e)
+        {
+            toolStripStatusLabel.Text = string.Format("Existe {0} telas abertas", childFormNumber + 1);
+            var childForm = new FormSistema();
             childForm.MdiParent = this;
             childForm.Show();
         }
