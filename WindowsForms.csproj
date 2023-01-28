@@ -33,6 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AppClassLibraryDomain" Version="1.0.0" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="NHibernate" Version="5.3.12" />
     <PackageReference Include="Spring.Core" Version="3.0.0" />
@@ -42,7 +43,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AppClassLibraryClient\AppClassLibraryClient.csproj" />
-    <ProjectReference Include="..\AppClassLibraryDomain\AppClassLibraryDomain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

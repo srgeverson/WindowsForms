@@ -18,7 +18,7 @@
 		<property name="ContextFactory" ref="ContextFactory"/>
 	</object>
 
-	<object name="PermissaoSQLDAO" type="AppClassLibraryDomain.DAO.SQL.PermissaoDAO, AppClassLibraryDomain">
+	<object name="PermissaoSQLDAO" type="AppClassLibraryDomain.DAO.SQL.PermissaoSQLDAO, AppClassLibraryDomain">
 		<property name="urlConnection" ref="UrlConnection"/>
 	</object>
 
